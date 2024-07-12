@@ -1,9 +1,18 @@
-e#tive pathwq import os module
+## import os module
 import os 
 
 ## import csv file
 import csv
-csvpath = os.path.join("C:/Users/shadow/Resources/budget_data.csv")
+
+# Get the current working directory (the directory where this script is located)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the relative path to the CSV file
+csvpath = os.path.join(current_dir, "Resources", "budget_data.csv")
+
+# Construct the relative path to the output directory
+output_dir = os.path.join(current_dir, "analysis")
+os.makedirs(output_dir, exist_ok=True) 
 
 ## Declarate and Initialize variables
 Total_Months = 0
@@ -31,7 +40,7 @@ with open(csvpath, newline="") as csvfile:
 
     ## Loop through rows in the CSV file
     for row in csvreader:
-        # Count total number of months
+        ## Count total number of months
         Total_Months = Total_Months + 1
     
         ## Loop Through Profit / Lose Row Since Second Row And Set Vaule as Integer
@@ -60,13 +69,13 @@ with open(csvpath, newline="") as csvfile:
                 GDP["Date"] = row[0]
                 GDP["Amount"] = change
 
-            # Set previous profit/loss for next iteration
+            ## Set previous profit/loss for next iteration
         PPL = PL
 
-# Calculate the average change in Profit/Losses                 
+## Calculate the average change in Profit/Losses                 
 average_change = sum(PLC) / len(PLC)
 
-# Print results
+## Print results
 print("Financial Analysis")
 print("------------------")
 print(f"Total Months: {Total_Months}")
@@ -75,8 +84,23 @@ print(f"Average Change: ${average_change:.2f}")
 print(f"GIP: {GIP['Date']} (${GIP['Amount']})")
 print(f"GDP: {GDP['Date']} (${GDP['Amount']})")
 
+## Prepare the analysis output
+output = (
+    "Financial Analysis\n"
+    "----------------------------\n"
+    f"Total Months: {Total_Months}\n"
+    f"Total: ${Net_Total}\n"
+    f"Average Change: ${average_change:.2f}\n"
+    f"Greatest Increase in Profits: {GIP['Date']} (${GIP['Amount']})\n"
+    f"Greatest Decrease in Profits: {GDP['Date']} (${GDP['Amount']})\n"
+)
 
+## Print the analysis to the terminal
+print(output)
 
-        
-       
+## Export the results to a text file
+output_path = os.path.join(output_dir, "Result.txt")
+print(f"Output file path: {output_path}")
 
+with open(output_path, "w") as txtfile:
+     txtfile.write(output)
