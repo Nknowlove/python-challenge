@@ -75,15 +75,6 @@ with open(csvpath, newline="") as csvfile:
 ## Calculate the average change in Profit/Losses                 
 average_change = sum(PLC) / len(PLC)
 
-## Print results
-print("Financial Analysis")
-print("------------------")
-print(f"Total Months: {Total_Months}")
-print(f"Total: ${Net_Total}")
-print(f"Average Change: ${average_change:.2f}")
-print(f"GIP: {GIP['Date']} (${GIP['Amount']})")
-print(f"GDP: {GDP['Date']} (${GDP['Amount']})")
-
 ## Prepare the analysis output
 output = (
     "Financial Analysis\n"
@@ -100,7 +91,6 @@ print(output)
 
 ## Export the results to a text file
 output_path = os.path.join(output_dir, "Result.txt")
-print(f"Output file path: {output_path}")
 
 with open(output_path, "w") as txtfile:
      txtfile.write(output)
